@@ -1,7 +1,7 @@
 <script>
 import {store} from "../store"
 export default{
-    name:"searchPersonaggio",
+    name:"SearchPersonaggio",
     data(){
       return{
         store
@@ -12,12 +12,10 @@ export default{
 </script>
 
 <template>
-    <select name="" id="">
-        <option value=""></option>
-        <option value="">ciao</option>
-        <option value="">ciaoo</option>
-
+    <select v-model="store.testoRicerca" name="" id="" class="mb-2">
+        <option v-for="(element, index) in store.arrayType" :value="element">{{ element }}</option>
     </select>
+    <button type="button" class="btn btn-primary mb-2" @click="$emit('search')">Cerca</button>
 </template>
 
 <style lang="scss">

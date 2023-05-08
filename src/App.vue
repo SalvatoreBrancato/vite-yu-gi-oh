@@ -3,12 +3,14 @@ import MainComp from './components/MainComp.vue';
 import NavComp from './components/NavComp.vue';
 import { store } from './store';
 import axios from 'axios';
+import SearchPersonaggio from './components/searchPersonaggio.vue';
 
 export default{
   name: "App",
   components:{
     NavComp,
-    MainComp
+    MainComp,
+    SearchPersonaggio
 },
 data(){
   return{
@@ -21,24 +23,36 @@ created(){
 },
 methods:{
   chiamataApi(){
-    axios.get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=1')
-    .then( (res) =>{
-      console.log(res.data.data)
 
-      const dataApi = res.data.data
-
-      this.store.arrayPersonaggi = dataApi
-     
-      for (let i = 0; i < dataApi.length; i++) {
-        const dataApiType = res.data.data[i].type
-        //console.log(dataApiType)
-        store.arrayType.push(dataApiType)
-        
-        
-        
-      }
-      console.log(store.arrayType)
-    })
+    if(store.testoRicerca == ''){
+      axios.get(`https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=1`)
+      .then( (res) =>{
+        const dataApi = res.data.data
+  
+        this.store.arrayPersonaggi = dataApi
+        for (let i = 0; i < dataApi.length; i++) {
+          const dataApiType = res.data.data[i].type
+          //console.log(dataApiType)
+          if(!store.arrayType.includes(dataApiType) ){
+            store.arrayType.push(dataApiType)
+          }
+        }
+      })
+    }  else{
+      axios.get(`https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=1&type=${store.testoRicerca}`)
+      .then( (res) =>{  
+        const dataApi = res.data.data
+  
+        this.store.arrayPersonaggi = dataApi
+        for (let i = 0; i < dataApi.length; i++) {
+          const dataApiType = res.data.data[i].type
+          //console.log(dataApiType)
+          if(!store.arrayType.includes(dataApiType) ){
+            store.arrayType.push(dataApiType)
+          }
+        }
+      })
+    }   
   }
 
   
@@ -51,6 +65,7 @@ methods:{
   <NavComp/>
 <div class="sfondo">
   <div class="box d-flex align-items-center flex-column my-5 ">
+    <SearchPersonaggio @search="chiamataApi"/>
     <MainComp/>
   </div>
 </div>
