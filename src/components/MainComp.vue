@@ -1,11 +1,12 @@
 <script>
 import CardComp from './CardComp.vue';
 import { store } from '../store'
+import SearchPersonaggio from './searchPersonaggio.vue';
 
 
 export default{
     name: "MainComp",
-    components: { CardComp },
+    components: { CardComp, SearchPersonaggio },
     data(){
       return{
         store
@@ -19,6 +20,7 @@ export default{
     <div class="w-75 bg-black d-flex align-items-center m-4">
         <h2 class="text-white">Numero Card: {{ store.arrayPersonaggi.length }}</h2>
     </div>
+    <SearchPersonaggio/>
     <div class="d-flex flex-wrap justify-content-around">
         <CardComp/>
     </div>

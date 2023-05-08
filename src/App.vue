@@ -17,6 +17,7 @@ data(){
 },
 created(){
   this.chiamataApi()
+
 },
 methods:{
   chiamataApi(){
@@ -27,8 +28,20 @@ methods:{
       const dataApi = res.data.data
 
       this.store.arrayPersonaggi = dataApi
+     
+      for (let i = 0; i < dataApi.length; i++) {
+        const dataApiType = res.data.data[i].type
+        //console.log(dataApiType)
+        store.arrayType.push(dataApiType)
+        
+        
+        
+      }
+      console.log(store.arrayType)
     })
   }
+
+  
 }
 
 }
